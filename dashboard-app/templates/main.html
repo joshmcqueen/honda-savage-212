@@ -1,0 +1,23 @@
+<html>
+<head>
+  <script src="{{ url_for('static', filename='jquery-3.5.1.min.js') }}"></script>
+</head>
+<body>
+<h1>Main Page</h1>
+
+<script>
+  // window.setInterval(function(){
+  //   console.log(Date.now());
+  // }, 5000);
+
+  window.setInterval(function(){
+    $.getJSON("/data", function (data) {
+    console.log(data);
+    });
+  }, 100);
+
+
+</script>
+
+</body>
+</html>

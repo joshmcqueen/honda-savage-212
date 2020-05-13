@@ -5,8 +5,9 @@ import random
 import time
 import datetime
 
+print("Running...")
 # get DB up and running
-database = "example.db"
+database = "../dashboard-app/sensors.db"
 
 if os.path.exists(database):
   os.remove(database)
@@ -24,11 +25,5 @@ while True:
     temp = random.randint(1,20)
     c.execute("INSERT INTO telemetry (timestamp, temp) VALUES(?, ?)", (timestamp, temp)) 
     conn.commit()
-    time.sleep(1)
+    time.sleep(.1)
 
-
-genTemp()
-
-# We can also close the connection if we are done with it.
-# Just be sure any changes have been committed or they will be lost.
-# conn.close()
