@@ -1,22 +1,104 @@
 <html>
 <head>
+  <title>Gauge Test</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="{{ url_for('static', filename='jquery-3.5.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='gauge.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<h1>Main Page</h1>
+<h1>Gauge Test</h1>
+
+<canvas id="gauge-ps"></canvas>
 
 <script>
-  // window.setInterval(function(){
-  //   console.log(Date.now());
-  // }, 5000);
+var gaugePS = new RadialGauge({
+    renderTo: 'gauge-ps',
+    width: 400,
+    height: 400,
+    units: 'PS',
+    minValue: 0,
+    maxValue: 1000,
+    majorTicks: [
+        '0',
+        '100',
+        '200',
+        '300',
+        '400',
+        '500',
+        '600',
+        '700',
+        '800',
+        '900',
+        '1000'
+    ],
+    minorTicks: 2,
+    ticksAngle: 270,
+    startAngle: 45,
+    strokeTicks: true,
+    highlights  : [
+        { from : 457,  to : 880, color : 'rgba(78,   78, 76, 0.5)' },
+        { from : 880, to : 1000, color : 'rgba(225, 7, 23, 0.75)' }
+    ],
+    valueInt: 1,
+    valueDec: 0,
+    colorPlate: "#fff",
+    colorMajorTicks: "#686868",
+    colorMinorTicks: "#686868",
+    colorTitle: "#000",
+    colorUnits: "#000",
+    colorNumbers: "#686868",
+    valueBox: true,
+    colorValueText: "#000",
+    colorValueBoxRect: "#fff",
+    colorValueBoxRectEnd: "#fff",
+    colorValueBoxBackground: "#fff",
+    colorValueBoxShadow: false,
+    colorValueTextShadow: false,
+    colorNeedleShadowUp: true,
+    colorNeedleShadowDown: false,
+    colorNeedle: "rgba(200, 50, 50, .75)",
+    colorNeedleEnd: "rgba(200, 50, 50, .75)",
+    colorNeedleCircleOuter: "rgba(200, 200, 200, 1)",
+    colorNeedleCircleOuterEnd: "rgba(200, 200, 200, 1)",
+    borderShadowWidth: 0,
+    borders: true,
+    borderInnerWidth: 0,
+    borderMiddleWidth: 0,
+    borderOuterWidth: 5,
+    colorBorderOuter: "#fafafa",
+    colorBorderOuterEnd: "#cdcdcd",
+    needleType: "arrow",
+    needleWidth: 5,
+    needleCircleSize: 7,
+    needleCircleOuter: true,
+    needleCircleInner: false,
+    animationDuration: 100,
+    animationRule: "dequint",
+    fontNumbers: "Verdana",
+    fontTitle: "Verdana",
+    fontUnits: "Verdana",
+    fontValue: "Led",
+    fontValueStyle: 'italic',
+    fontNumbersSize: 20,
+    fontNumbersStyle: 'italic',
+    fontNumbersWeight: 'bold',
+    fontTitleSize: 24,
+    fontUnitsSize: 22,
+    fontValueSize: 50,
+    animatedValue: true
+});
+gaugePS.draw();
+gaugePS.value = "510";
+</script>
 
+<script>
   window.setInterval(function(){
-    $.getJSON("/data", function (data) {
-    console.log(data);
-    });
+    $.ajax({url: "/data", success: function(result){
+      console.log(result);
+      gaugePS.value=result[1];
+    }});
   }, 100);
-
-
 </script>
 
 </body>
