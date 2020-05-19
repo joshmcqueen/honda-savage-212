@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<h1>Gauge Test</h1>
 
 <canvas id="gauge-ps"></canvas>
 
@@ -16,7 +15,7 @@ var gaugePS = new RadialGauge({
     renderTo: 'gauge-ps',
     width: 400,
     height: 400,
-    units: 'PS',
+    units: 'MPH',
     minValue: 0,
     maxValue: 1000,
     majorTicks: [
@@ -73,7 +72,7 @@ var gaugePS = new RadialGauge({
     needleCircleSize: 7,
     needleCircleOuter: true,
     needleCircleInner: false,
-    animationDuration: 100,
+    animationDuration: 1000,
     animationRule: "dequint",
     fontNumbers: "Verdana",
     fontTitle: "Verdana",
@@ -93,10 +92,25 @@ gaugePS.value = "510";
 </script>
 
 <script>
+  // set global
+  var currentTime = null; 
+
+  // fetch the latest data
   window.setInterval(function(){
     $.ajax({url: "/data", success: function(result){
-      console.log(result);
-      gaugePS.value=result[1];
+      // console.log(result);
+      // first run set current time
+      if (currentTime == null) {
+          currentTime = Date.parse(result[0]);
+        }
+      // ignore out-of-order (old) requests
+      else if (Date.parse(result[0]) > currentTime) {
+        currentTime = result[1];
+        gaugePS.value=result[1];
+      } else {
+        console.log("out of order");
+      }
+
     }});
   }, 100);
 </script>
