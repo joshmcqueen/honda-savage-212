@@ -22,6 +22,7 @@ cursor.execute('''CREATE TABLE telemetry (timestamp TEXT, temp INTEGER)''')
 
 # open serial connection
 ser = serial.Serial('/dev/cu.usbmodem14101')
+#ser = serial.Serial('/dev/ttyACM0')
 
 # setup globals
 _TEMP = 0
